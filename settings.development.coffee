@@ -91,8 +91,49 @@ module.exports =
 
 	# Where your instance of ShareLaTeX can be found publicly. This is used
 	# when emails are sent out and in generated links:
-	siteUrl : 'http://localhost:3000'
+	# siteUrl : 'http://localhost:3000'
+	siteUrl: siteUrl = process.env["SHARELATEX_SITE_URL"] or 'http://localhost'
 	
+	# appname
+	appName: process.env["SHARELATEX_APP_NAME"] or "ShareLaTeX (Community Edition)"
+	# not public
+	restrictInvitesToExistingAccounts: process.env["SHARELATEX_RESTRICT_INVITES_TO_EXISTING_ACCOUNTS"] == 'true'
+	
+	nav:
+		title: process.env["SHARELATEX_NAV_TITLE"] or  process.env["SHARELATEX_APP_NAME"] or "ShareLaTeX Community Edition"
+
+	# admin email
+	adminEmail: process.env["SHARELATEX_ADMIN_EMAIL"] or "placeholder@example.com"
+	
+	# settings for ssl and proxy
+	secureCookie: process.env["SHARELATEX_SECURE_COOKIE"]?
+	behindProxy: process.env["SHARELATEX_BEHIND_PROXY"] or false
+	
+	
+	## OPTIONAL CONFIGERABLE SETTINGS
+
+	if process.env["SHARELATEX_LEFT_FOOTER"]?
+		try
+			settings.nav.left_footer = JSON.parse(process.env["SHARELATEX_LEFT_FOOTER"])
+		catch e
+			console.error("could not parse SHARELATEX_LEFT_FOOTER, not valid JSON")
+
+	if process.env["SHARELATEX_RIGHT_FOOTER"]?
+		settings.nav.right_footer = process.env["SHARELATEX_RIGHT_FOOTER"]
+		try
+			settings.nav.right_footer = JSON.parse(process.env["SHARELATEX_RIGHT_FOOTER"])
+		catch e
+			console.error("could not parse SHARELATEX_RIGHT_FOOTER, not valid JSON")
+
+	if process.env["SHARELATEX_HEADER_IMAGE_URL"]?
+		settings.nav.custom_logo = process.env["SHARELATEX_HEADER_IMAGE_URL"]
+
+	if process.env["SHARELATEX_HEADER_EXTRAS"]?
+	try
+		settings.nav.header_extras = JSON.parse(process.env["SHARELATEX_HEADER_EXTRAS"])
+	catch e
+		console.error("could not parse SHARELATEX_HEADER_EXTRAS, not valid JSON")	
+		
 	# The websocket layer of ShareLaTeX runs as separate service.
 	# When running locally or in development, you can point the client to this
 	# service directly on port 3026. If you are running behind a reverse proxy (Nginx, etc)
