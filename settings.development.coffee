@@ -99,7 +99,7 @@ module.exports =
 	# then websocketsUrl should be the same as siteUrl, with your reverse
 	# proxy responible for sending websocket traffic to the websocket service
 	# rather than connecting directly.
-	websocketsUrl: 'http://localhost:3026'
+	websocketsUrl: 'http://localhost:3000'
 	
 	# If provided, a sessionSecret is used to sign cookies so that they cannot be
 	# spoofed. This is recommended.
@@ -122,12 +122,12 @@ module.exports =
 
 	# If you are running ShareLaTeX over https, set this to true to send the
 	# cookie with a secure flag (recommended).
-	secureCookie: false
+	secureCookie: true
 	
 	# If you are running ShareLaTeX behind a proxy (like Apache, Nginx, etc)
 	# then set this to true to allow it to correctly detect the forwarded IP
 	# address and http/https protocol information.
-	behindProxy: false
+	behindProxy: true
 
 	# Sending Email
 	# -------------
